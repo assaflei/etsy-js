@@ -42,4 +42,13 @@ class Listing
       else
         cb null, body, headers
 
+  # Creates a new listing
+  # /listings POST
+  create: (listing, cb) ->
+    @client.post "/listings", listing, (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Create a new listing error'))
+      else
+        cb null, body, headers
 module.exports = Listing

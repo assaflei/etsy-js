@@ -37,3 +37,15 @@ describe "listing", ->
 
     client.listing().trending (err, body, headers) ->
       body.results[0].listing_id.should.equal 69065674
+
+  #todo: add create listing test
+  # it "should fail to create a new listing", ->
+  #   nock("https://openapi.etsy.com")
+  #   .post("/v2/listings?api_key=testKey")
+  #   .replyWithFile(200, __dirname + '/responses/listing/findAllListingActive.category.json')
+
+  #   params = {state: "draft"}
+  #   client.listing().create (err, body, headers) -> {
+      
+  #   }
+  #     body.results[0].listing_id.should.equal 69065674
