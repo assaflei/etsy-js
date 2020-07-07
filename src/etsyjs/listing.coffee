@@ -51,4 +51,14 @@ class Listing
         cb(new Error('Create a new listing error'))
       else
         cb null, body, headers
+
+  # Updates listing details
+  # /listings/:listing_id PUT
+  update: (listing, cb) ->
+    @client.put "/listings/#{@listingId}", listing, (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Update listing error'))
+      else
+        cb null, body, headers
 module.exports = Listing
