@@ -47,7 +47,7 @@ class Listing
   create: (listing, cb) ->
     @client.post "/listings", listing, (err, status, body, headers) ->
       return cb(err) if err
-      if status isnt 200
+      if status isnt 201
         cb(new Error('Create a new listing error'))
       else
         cb null, body, headers
