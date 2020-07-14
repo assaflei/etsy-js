@@ -153,6 +153,7 @@ class Client
   accessToken: (token, secret, verifier, callback) ->
     @etsyOAuth.getOAuthAccessToken token, secret, verifier, (err, oauth_access_token, oauth_access_token_secret, results) ->
       console.log "==> Retrieving the access token"
+      return callback(err) if err
       accessToken =
         token: oauth_access_token
         tokenSecret: oauth_access_token_secret
