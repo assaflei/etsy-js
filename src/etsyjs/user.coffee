@@ -24,6 +24,16 @@ class User
       else
         cb null, body, headers
 
+  # Retrieves a set of Shop objects associated to a User
+  # '/users/:user_id/shops' GET
+  shops: (cb) ->
+    @client.get "/users/#{@userId}/shops", (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Final all user shops error'))
+      else
+        cb null, body, headers
+
   # Returns profile for user
   # /users/:user_id/profile GET
   profile: (cb) ->
