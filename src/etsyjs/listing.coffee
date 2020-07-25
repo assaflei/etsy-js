@@ -4,8 +4,8 @@ class Listing
 
   # Retrieves listings by id
   # '/listings/:listing_id' GET
-  find: (cb) ->
-    @client.get "/listings/#{@listingId}", (err, status, body, headers) ->
+  find: (params..., cb) ->
+    @client.get "/listings/#{@listingId}", params..., (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get listings error'))
