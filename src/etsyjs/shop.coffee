@@ -27,11 +27,11 @@ class Shop
 
   # Retrieves Listings associated to a Shop that are active
   # '/shops/:shop_id/listings/active' GET
-  activeListings: ({token, secret, limit, offset}, cb) ->
-    params = {}
+  activeListings: (params..., {token, secret, limit, offset}, cb) ->
+    params = if !params? then {} else params
     params.limit = limit if limit?
     params.offset = offset if offset?
-    @client.get "/shops/#{@shopId}/listings/active", token, secret, params..., (err, status, body, headers) ->
+    @client.get "/shops/#{@shopId}/listings/active", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get active listings error'))
@@ -40,11 +40,11 @@ class Shop
 
   # Retrieves Listings associated to a Shop that are drafts
   # '/shops/:shop_id/listings/draft' GET
-  draftListings: ({token, secret, limit, offset}, cb) ->
-    params = {}
+  draftListings: (params..., {token, secret, limit, offset}, cb) ->
+    params = if !params? then {} else params
     params.limit = limit if limit?
     params.offset = offset if offset?
-    @client.get "/shops/#{@shopId}/listings/draft", token, secret, params..., (err, status, body, headers) ->
+    @client.get "/shops/#{@shopId}/listings/draft", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get draft listings error'))
@@ -53,11 +53,11 @@ class Shop
         
   # Retrieves Listings associated to a Shop that are expired
   # '/shops/:shop_id/listings/expired' GET
-  expiredListings: ({token, secret, limit, offset}, cb) ->
-    params = {}
+  expiredListings: (params..., {token, secret, limit, offset}, cb) ->
+    params = if !params? then {} else params
     params.limit = limit if limit?
     params.offset = offset if offset?
-    @client.get "/shops/#{@shopId}/listings/expired", token, secret, params..., (err, status, body, headers) ->
+    @client.get "/shops/#{@shopId}/listings/expired", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get expired listings error'))
@@ -66,11 +66,11 @@ class Shop
         
   # Retrieves Listings associated to a Shop that are inactive
   # '/shops/:shop_id/listings/inactive' GET
-  inactiveListings: ({token, secret, limit, offset}, cb) ->
-    params = {}
+  inactiveListings: (params..., {token, secret, limit, offset}, cb) ->
+    params = if !params? then {} else params
     params.limit = limit if limit?
     params.offset = offset if offset?
-    @client.get "/shops/#{@shopId}/listings/inactive", token, secret, params..., (err, status, body, headers) ->
+    @client.get "/shops/#{@shopId}/listings/inactive", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get inactive listings error'))
