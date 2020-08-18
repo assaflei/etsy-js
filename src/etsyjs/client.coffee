@@ -59,12 +59,18 @@ class Client
   address: (userId) ->
     new Address(userId, @)
 
-  buildUrl: (path = '/', pageOrQuery = null) ->
+  buildUrl: (path = '/', pageOrQuery = null, params...) ->
     if pageOrQuery? and typeof pageOrQuery == 'object'
       query = pageOrQuery
       query.api_key = @apiKey if @apiKey? && not @apiSecret?
     else
       query = {}
+
+    if params.length > 0
+      for key, value of params
+        if value?
+          for valKey, valValue of value 
+            query[valKey] = valValue
 
     query.api_key = @apiKey if @apiKey? && not @apiSecret?
     _url = require('url').format

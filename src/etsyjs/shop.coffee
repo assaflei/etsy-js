@@ -29,8 +29,8 @@ class Shop
   # '/shops/:shop_id/listings/active' GET
   activeListings: (params..., {token, secret, limit, offset}, cb) ->
     params = if !params? then {} else params
-    params.limit = limit if limit?
-    params.offset = offset if offset?
+    params.push { limit: limit } if limit?
+    params.push { offset: offset } if offset?
     @client.get "/shops/#{@shopId}/listings/active", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
@@ -42,8 +42,8 @@ class Shop
   # '/shops/:shop_id/listings/draft' GET
   draftListings: (params..., {token, secret, limit, offset}, cb) ->
     params = if !params? then {} else params
-    params.limit = limit if limit?
-    params.offset = offset if offset?
+    params.push { limit: limit } if limit?
+    params.push { offset: offset } if offset?
     @client.get "/shops/#{@shopId}/listings/draft", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
@@ -55,8 +55,8 @@ class Shop
   # '/shops/:shop_id/listings/expired' GET
   expiredListings: (params..., {token, secret, limit, offset}, cb) ->
     params = if !params? then {} else params
-    params.limit = limit if limit?
-    params.offset = offset if offset?
+    params.push { limit: limit } if limit?
+    params.push { offset: offset } if offset?
     @client.get "/shops/#{@shopId}/listings/expired", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
@@ -68,8 +68,8 @@ class Shop
   # '/shops/:shop_id/listings/inactive' GET
   inactiveListings: (params..., {token, secret, limit, offset}, cb) ->
     params = if !params? then {} else params
-    params.limit = limit if limit?
-    params.offset = offset if offset?
+    params.push { limit: limit } if limit?
+    params.push { offset: offset } if offset?
     @client.get "/shops/#{@shopId}/listings/inactive", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
