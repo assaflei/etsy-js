@@ -71,4 +71,14 @@ class Listing
         cb(new Error('Update listing quantity error'))
       else
         cb null, body, headers
+
+  # Updates listing details
+  # /listings/:listing_id/variation-images POST
+  updateVariationImages: (varImagesData, cb) ->
+    @client.post "/listings/#{@listingId}/variation-images", varImagesData, (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Update listing variation images error'))
+      else
+        cb null, body, headers
 module.exports = Listing
