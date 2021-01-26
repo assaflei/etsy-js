@@ -12,7 +12,7 @@ class Receipt
     params.offset = offset if offset?
     params.min_last_modified = min_last_modified if min_last_modified?
     params.max_last_modified = max_last_modified if max_last_modified?
-    @client.get "/shops/#{@shopId}/receipts", token, secret, params..., (err, status, body, headers) ->
+    @client.get "/shops/#{shopId}/receipts", token, secret, params..., (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get shop receipts error'))
