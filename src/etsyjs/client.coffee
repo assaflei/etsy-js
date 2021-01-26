@@ -10,6 +10,7 @@ Shop = require './shop'
 Search = require './search'
 Listing = require './listing'
 Address = require './address'
+Receipt = require './receipt'
 
 # Specialized error
 class HttpError extends Error
@@ -58,6 +59,9 @@ class Client
 
   address: (userId) ->
     new Address(userId, @)
+
+  receipt: (listingId) ->
+    new Receipt(@)
 
   buildUrl: (path = '/', pageOrQuery = null, params...) ->
     if pageOrQuery? and typeof pageOrQuery == 'object'

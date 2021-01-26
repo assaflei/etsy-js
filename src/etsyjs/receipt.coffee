@@ -6,8 +6,8 @@ class Receipt
 
   # Retrieves receipts by shop id
   # '/shops/:shop_id/receipts' GET
-  findByShop: (shopId, {token, secret, limit, offset, min_last_modified, max_last_modified}, cb) ->
-    params = {}
+  findByShop: (shopId, params..., {token, secret, limit, offset}, cb) ->
+    params = if !params? then {} else params
     params.limit = limit if limit?
     params.offset = offset if offset?
     params.min_last_modified = min_last_modified if min_last_modified?
