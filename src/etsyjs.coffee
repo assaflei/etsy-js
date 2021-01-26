@@ -7,3 +7,4 @@ etsyjs = module.exports =
   search: require './etsyjs/search'
   listing: require './etsyjs/listing'
   address: require './etsyjs/address'
+  receipt: require './etsyjs/receipt'
