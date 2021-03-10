@@ -176,7 +176,10 @@ class Client
   @author : httpNick
   ###
   addScope: (newScope) ->
-    this.etsyOAuth._requestUrl += "%20#{newScope}"
+    if this.etsyOAuth._requestUrl.indexOf(newScope) == -1
+      this.etsyOAuth._requestUrl += "%20#{newScope}"
+    else
+      this.etsyOAuth._requestUrl
 
 module.exports = (apiKey, options) ->
   new Client(apiKey, options)
