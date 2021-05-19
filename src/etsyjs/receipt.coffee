@@ -29,4 +29,14 @@ class Receipt
       else
         cb null, body, headers
 
+  # Retrieves receipts by shop id
+  # '/shops/:shop_id/receipts/:receipt_id/tracking' POST
+  submitTracking: (shopId, recieptId, trackingData, cb) ->
+    @client.post "/shops/#{shopId}/receipts/#{recieptId}/tracking", trackingData, (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('submitTracking error'))
+      else
+        cb null, body, headers
+
 module.exports = Receipt
