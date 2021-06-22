@@ -15,7 +15,7 @@ class Category
   # Retrieves all top-level Categories
   # '/taxonomy/categories' GET
   topLevelCategories: (cb) ->
-    @client.get "/taxonomy/categories", (err, status, body, headers) ->
+    @client.get "/taxonomy/buyer/get", (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get top level categories error'))

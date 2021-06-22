@@ -15,7 +15,7 @@ describe "category", ->
 
   it "should be able to find all top level categories", ->
     nock("https://openapi.etsy.com")
-      .get("/v2/taxonomy/categories?api_key=testKey")
+      .get("/v2/taxonomy/buyer/get?api_key=testKey")
       .replyWithFile(200, __dirname + '/responses/category/findAllTopCategory.json')
 
     client.category().topLevelCategories (err, body, headers) ->
