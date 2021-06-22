@@ -74,4 +74,14 @@ class User
       else
         cb null, body, headers
 
+  # Returns a list of user's shipping templates
+  # /users/:user_id/connected_users GET
+  shippingTemplates: (params..., cb) ->
+    @client.get "/users/#{@userId}/shipping/templates", params..., (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Get shipping template error'))
+      else
+        cb null, body, headers
+
 module.exports = User
