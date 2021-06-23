@@ -70,7 +70,8 @@ class Shop
     params = if !params? then {} else params
     params.push { limit: limit } if limit?
     params.push { offset: offset } if offset?
-    @client.get "/shops/#{@shopId}/listings/inactive", params..., token, secret, (err, status, body, headers) ->
+    params.push { state: inactive }
+    @client.get "/shops/#{@shopId}/listings", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get inactive listings error'))
