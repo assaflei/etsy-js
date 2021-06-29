@@ -45,7 +45,7 @@ class Listing
   # Creates a new listing
   # /listings POST
   create: (shop, listing, cb) ->
-    @client.post "/shops/#{shop}/listings", JSON.stringify(listing), (err, status, body, headers) ->
+    @client.post "/shops/#{shop}/listings", listing, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 201
         cb(new Error('Create a new listing error'))
