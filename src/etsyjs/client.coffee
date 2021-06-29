@@ -44,7 +44,7 @@ class Client
       'https://api.etsy.com',
       "#{@oauth2AuthPath}",
       '/v3/public/oauth/token',
-      {"x-api-key":@apiKey,"Content-Type": "application/x-www-form-urlencoded"}
+      {"x-api-key":@apiKey}
     )
 
   # nice helper method to set token and secret for each method call
@@ -134,10 +134,11 @@ class Client
       @handleResponse res, data, callback
 
   # api POST requests
-  post: (path, content, callback) ->
+  post: (path, content, contentType, callback) ->
     url = @buildUrl path
+    contentType = if !contentType? then "application/x-www-form-urlencoded" else contentType
     console.log "==> Perform POST request on #{url} with #{JSON.stringify content}"
-    @etsyOAuth2._request "POST", url, {'Authorization':@etsyOAuth2.buildAuthHeader(@oauth2Token)}, querystring.stringify(content), @oauth2Token, (err, data, res) =>
+    @etsyOAuth2._request "POST", url, {'Authorization':@etsyOAuth2.buildAuthHeader(@oauth2Token),'Content-Type':contentType}, querystring.stringify(content), @oauth2Token, (err, data, res) =>
       return callback(err) if err
       @handleResponse res, data, callback
 

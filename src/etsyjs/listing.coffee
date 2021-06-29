@@ -45,7 +45,7 @@ class Listing
   # Creates a new listing
   # /listings POST
   create: (shop, listing, cb) ->
-    @client.post "/shops/#{shop}/listings", listing, (err, status, body, headers) ->
+    @client.post "/shops/#{shop}/listings", listing, null, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 201
         cb(new Error('Create a new listing error'))
@@ -79,6 +79,16 @@ class Listing
       return cb(err) if err
       if status isnt 200
         cb(new Error('Update listing variation images error'))
+      else
+        cb null, body, headers
+
+  # Updates listing details
+  # /shops/:shop_id/listings/:listing_id/images POST
+  uploadListingImage: (shop, imageData, cb) ->
+    @client.post "/shops/#{shop}/listings/#{@listingId}/images", imageData, "multipart/form-data", (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 201
+        cb(new Error('Update listing images error'))
       else
         cb null, body, headers
 module.exports = Listing

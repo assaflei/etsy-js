@@ -42,12 +42,22 @@ describe "listing", ->
     client.listing().trending (err, body, headers) ->
       body.results[0].listing_id.should.equal 69065674
 
-  it "should create a new listing", (done) ->
+  it "should invoke api to create a new listing", (done) ->
     nock("https://api.etsy.com")
     .post("/v3/application/shops/1/listings")
     .replyWithFile(201, __dirname + '/responses/listing/createListing.json')
 
     params = {state: "draft", title: "test"}
     client.listing().create 1, params, (err, body, headers) ->
+      body.listing_id.should.equal 1
+      done()
+
+  it "should invoke api to upload listing image", (done) ->
+    nock("https://api.etsy.com")
+    .post("/v3/application/shops/1/listings/1/images")
+    .replyWithFile(201, __dirname + '/responses/listing/uploadImage.json')
+
+    params = {state: "draft", title: "test"}
+    client.listing(1).uploadListingImage 1, params, (err, body, headers) ->
       body.listing_id.should.equal 1
       done()
