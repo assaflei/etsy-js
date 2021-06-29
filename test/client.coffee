@@ -16,10 +16,6 @@ client_oa2 = etsyjs.client({
 
 describe "client", -> 
 
-  it "should be able to get OAuth connection token", (done) ->
-    client_oa1.requestToken (err, body, headers) ->
-      should.exist(body.token);
-      done()
   it "should be able to get OAuth2 connection token", (done) ->
     client_oa2.requestTokenOA2 (err, body) ->
       should.exist(body.loginUrl);

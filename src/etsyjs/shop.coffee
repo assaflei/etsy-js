@@ -31,7 +31,8 @@ class Shop
     params = if !params? then {} else params
     params.push { limit: limit } if limit?
     params.push { offset: offset } if offset?
-    @client.get "/shops/#{@shopId}/listings/active", params..., token, secret, (err, status, body, headers) ->
+    params.push { state: "active" }
+    @client.get "/shops/#{@shopId}/listings", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get active listings error'))
@@ -44,7 +45,8 @@ class Shop
     params = if !params? then {} else params
     params.push { limit: limit } if limit?
     params.push { offset: offset } if offset?
-    @client.get "/shops/#{@shopId}/listings/draft", params..., token, secret, (err, status, body, headers) ->
+    params.push { state: "draft" }
+    @client.get "/shops/#{@shopId}/listings", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get draft listings error'))
@@ -57,7 +59,8 @@ class Shop
     params = if !params? then {} else params
     params.push { limit: limit } if limit?
     params.push { offset: offset } if offset?
-    @client.get "/shops/#{@shopId}/listings/expired", params..., token, secret, (err, status, body, headers) ->
+    params.push { state: "expired" }
+    @client.get "/shops/#{@shopId}/listings", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get expired listings error'))
@@ -70,7 +73,7 @@ class Shop
     params = if !params? then {} else params
     params.push { limit: limit } if limit?
     params.push { offset: offset } if offset?
-    params.push { state: inactive }
+    params.push { state: "inactive" }
     @client.get "/shops/#{@shopId}/listings", params..., token, secret, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200

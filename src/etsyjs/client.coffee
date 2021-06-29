@@ -20,8 +20,7 @@ class Client
   constructor: (@options) ->
     # @authType = @options.authType #use oauth or oauth2
     @oauth2AuthPath = 'https://www.etsy.com/oauth/connect'
-    @oauth2Scopes = 'email_r profile_r profile_w address_r address_w'
-    @oauth2State = @options.state
+    @oauth2Scopes = 'email_r profile_r address_r address_w'
     @apiKey = @options.key
     @apiSecret = @options.secret
     @callbackURL = @options.callbackURL
@@ -95,8 +94,8 @@ class Client
     query.api_key = @apiKey if @apiKey? && not @apiSecret?
     _url = require('url').format
       protocol: "https:"
-      hostname: "openapi.etsy.com"
-      pathname: "/v2#{path}"
+      hostname: "api.etsy.com"
+      pathname: "/v3/application#{path}"
       query: query
 
     console.dir "API URL is #{_url} "
@@ -137,7 +136,7 @@ class Client
   post: (path, content, callback) ->
     url = @buildUrl path
     console.log "==> Perform POST request on #{url} with #{JSON.stringify content}"
-    @etsyOAuth.post url, @authenticatedToken, @authenticatedSecret, content,  (err, data, res) =>
+    @etsyOAuth2._request "POST", url, undefined, content, @oauth2Token, (err, data, res) =>
       return callback(err) if err
       @handleResponse res, data, callback
 
@@ -166,9 +165,11 @@ class Client
         return callback(err) if err
         @handleResponse res, data, callback
     else
-      console.log "==> Perform authenticated GET request on #{url.replace('openapi.etsy.com/v2', 'api.etsy.com/v3/application')}"
+      #console.log "==> Perform authenticated GET request on #{url.replace('openapi.etsy.com/v2', 'api.etsy.com/v3/application')}"
+      console.log "==> Perform authenticated GET request on #{url}"
       @etsyOAuth2.useAuthorizationHeaderforGET(true)
-      @etsyOAuth2.get url.replace('openapi.etsy.com/v2', 'api.etsy.com/v3/application'), @oauth2Token, (err, data, res) =>
+      # @etsyOAuth2.get url.replace('openapi.etsy.com/v2', 'api.etsy.com/v3/application'), @oauth2Token, (err, data, res) =>
+      @etsyOAuth2.get url, @oauth2Token, (err, data, res) =>
         return callback(err) if err
         @handleResponse res, data, callback
 
