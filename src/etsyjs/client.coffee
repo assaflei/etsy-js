@@ -1,4 +1,5 @@
 # Required modules
+querystring = require 'querystring'
 request = require 'request'
 OAuth = require 'oauth'
 util = require 'util'
@@ -43,7 +44,7 @@ class Client
       'https://api.etsy.com',
       "#{@oauth2AuthPath}",
       '/v3/public/oauth/token',
-      {"x-api-key":@apiKey}
+      {"x-api-key":@apiKey,"Content-Type": "application/x-www-form-urlencoded"}
     )
 
   # nice helper method to set token and secret for each method call
@@ -136,7 +137,7 @@ class Client
   post: (path, content, callback) ->
     url = @buildUrl path
     console.log "==> Perform POST request on #{url} with #{JSON.stringify content}"
-    @etsyOAuth2._request "POST", url, undefined, content, @oauth2Token, (err, data, res) =>
+    @etsyOAuth2._request "POST", url, {'Authorization':@etsyOAuth2.buildAuthHeader(@oauth2Token)}, querystring.stringify(content), @oauth2Token, (err, data, res) =>
       return callback(err) if err
       @handleResponse res, data, callback
 
@@ -165,10 +166,8 @@ class Client
         return callback(err) if err
         @handleResponse res, data, callback
     else
-      #console.log "==> Perform authenticated GET request on #{url.replace('openapi.etsy.com/v2', 'api.etsy.com/v3/application')}"
       console.log "==> Perform authenticated GET request on #{url}"
       @etsyOAuth2.useAuthorizationHeaderforGET(true)
-      # @etsyOAuth2.get url.replace('openapi.etsy.com/v2', 'api.etsy.com/v3/application'), @oauth2Token, (err, data, res) =>
       @etsyOAuth2.get url, @oauth2Token, (err, data, res) =>
         return callback(err) if err
         @handleResponse res, data, callback
