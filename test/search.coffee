@@ -6,8 +6,8 @@ client = etsyjs.client({key:'testKey'})
 describe "search", ->
 
   it "should be able to find first page of all users with keyword rainbow", ->
-    nock("https://openapi.etsy.com")
-      .get("/v2/users?keywords=rainbow&api_key=testKey")
+    nock("https://api.etsy.com")
+      .get("/v3/application/users?keywords=rainbow&api_key=testKey")
       .replyWithFile(200, __dirname + '/responses/user/findAllusers.json')
 
     params = {keywords : "rainbow"}
@@ -21,8 +21,8 @@ describe "search", ->
       should.not.exist(body.params.page)
 
   it "should be able to find second page of all users with keyword rainbow", ->
-    nock("https://openapi.etsy.com")
-      .get("/v2/users?keywords=rainbow&offset=1&limit=25&api_key=testKey")
+    nock("https://api.etsy.com")
+      .get("/v3/application/users?keywords=rainbow&offset=1&limit=25&api_key=testKey")
       .replyWithFile(200, __dirname + '/responses/user/findAllusers.page2.json')
 
     params = {keywords : "rainbow", offset: 1, limit: 25}
