@@ -1,3 +1,4 @@
+fs = require('fs')
 nock = require("nock")
 should = require("chai").should()
 etsyjs = require("../lib/etsyjs")
@@ -57,7 +58,8 @@ describe "listing", ->
     .post("/v3/application/shops/1/listings/1/images")
     .replyWithFile(201, __dirname + '/responses/listing/uploadImage.json')
 
-    params = {state: "draft", title: "test"}
+    params = "the value should be fs.createReadStream('path/to/file')"
+    # client.listing(1047465545).uploadListingImage process.env.ETSY_SHOP, fs.createReadStream('e:/temp/img1.jpg'), (err, body, headers) ->
     client.listing(1).uploadListingImage 1, params, (err, body, headers) ->
-      body.listing_id.should.equal 1
+      body.message.should.equal "success"
       done()

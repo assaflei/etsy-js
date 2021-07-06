@@ -1,4 +1,5 @@
 # Required modules
+FormData = require 'form-data'
 querystring = require 'querystring'
 request = require 'request'
 OAuth = require 'oauth'
@@ -141,6 +142,26 @@ class Client
     @etsyOAuth2._request "POST", url, {'Authorization':@etsyOAuth2.buildAuthHeader(@oauth2Token),'Content-Type':contentType}, querystring.stringify(content), @oauth2Token, (err, data, res) =>
       return callback(err) if err
       @handleResponse res, data, callback
+
+
+  # api POST multipart form requests (usually file uploads)
+  postMultipart: (path, content, callback) ->
+    url = new URL(@buildUrl path)
+    console.log "==> Perform multipart POST request on #{url} with #{typeof content} content"
+    form = new FormData()
+    form.append('image', content)
+    form.submit({
+      protocol: url.protocol,
+      host: url.host,
+      path: url.pathname,
+      headers: {
+        'Authorization': @etsyOAuth2.buildAuthHeader(@oauth2Token),
+        "x-api-key": @apiKey
+      }
+    }, (err, res) =>
+      return callback(err) if err
+      return @handleResponse res, "{\"message\":\"success\"}", callback
+    )
 
   # api DELETE requests
   delete: (path, callback) ->
