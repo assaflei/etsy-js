@@ -181,6 +181,9 @@ class Client
     @request (
       uri: @buildUrl path, params...
       method: 'GET'
+      headers: {
+        "x-api-key": @apiKey
+      }
     ), (err, res, body) =>
       return callback(err) if err
       @handleResponse res, body, callback
