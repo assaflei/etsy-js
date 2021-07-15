@@ -145,11 +145,16 @@ class Client
 
 
   # api POST multipart form requests (usually file uploads)
-  postMultipart: (path, content, callback) ->
+  postMultipart: (path, content, params..., callback) ->
     url = new URL(@buildUrl path)
     console.log "==> Perform multipart POST request on #{url} with #{typeof content} content"
     form = new FormData()
     form.append('image', content)
+    if params.length > 0
+      for key, value of params
+        if value?
+          for valKey, valValue of value 
+            form.append(valKey, valValue)
     form.submit({
       protocol: url.protocol,
       host: url.host,
@@ -225,7 +230,7 @@ class Client
       code_challenge: codeChallenge,
       code_challenge_method: 'S256'
     }
-    authUrl = authUrl.replace 'https://openapi.etsy.com/v2', ''
+    authUrl = authUrl.replace 'https://api.etsy.com/v3/application', ''
     result = {
       loginUrl: authUrl,
       state: stateHash,

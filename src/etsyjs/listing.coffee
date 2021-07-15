@@ -84,8 +84,8 @@ class Listing
 
   # Updates listing details
   # /shops/:shop_id/listings/:listing_id/images POST
-  uploadListingImage: (shop, imageData, cb) ->
-    @client.postMultipart "/shops/#{shop}/listings/#{@listingId}/images", imageData, (err, status, body, headers) ->
+  uploadListingImage: (shop, imageData, params..., cb) ->
+    @client.postMultipart "/shops/#{shop}/listings/#{@listingId}/images", imageData, params..., (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 201
         cb(new Error('Update listing images error'))

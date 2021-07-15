@@ -58,8 +58,9 @@ describe "listing", ->
     .post("/v3/application/shops/1/listings/1/images")
     .replyWithFile(201, __dirname + '/responses/listing/uploadImage.json')
 
-    params = "the value should be fs.createReadStream('path/to/file')"
-    # client.listing(1047465545).uploadListingImage process.env.ETSY_SHOP, fs.createReadStream('e:/temp/img1.jpg'), (err, body, headers) ->
-    client.listing(1).uploadListingImage 1, params, (err, body, headers) ->
+    stream = "the value should be fs.createReadStream('path/to/file')"
+    params = {"rank": 1}
+    # client.listing(1047491147).uploadListingImage process.env.ETSY_SHOP, fs.createReadStream('e:/temp/img1.jpg'), params, (err, body, headers) ->
+    client.listing(1).uploadListingImage 1, stream, params, (err, body, headers) ->
       body.message.should.equal "success"
       done()
