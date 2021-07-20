@@ -65,7 +65,7 @@ class Listing
   # Updates listing details
   # /listings/:listing_id PUT
   updateInventory: (listing, cb) ->
-    @client.put "/listings/#{@listingId}/inventory", listing, (err, status, body, headers) ->
+    @client.put "/listings/#{@listingId}/inventory", JSON.stringify(listing), "application/json", (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Update listing quantity error'))

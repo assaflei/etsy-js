@@ -64,3 +64,14 @@ describe "listing", ->
     client.listing(1).uploadListingImage 1, stream, params, (err, body, headers) ->
       body.message.should.equal "success"
       done()
+
+  it "should invoke api to update listing inventory", (done) ->
+    nock("https://api.etsy.com")
+    .put("/v3/application/listings/1/inventory")
+    .replyWithFile(200, __dirname + '/responses/listing/updateListingInventory.json')
+
+    params = {"param": 1}
+    # client.listing(1047491147).uploadListingImage process.env.ETSY_SHOP, fs.createReadStream('e:/temp/img1.jpg'), params, (err, body, headers) ->
+    client.listing(1).updateInventory params, (err, body, headers) ->
+      should.exist(body.products)
+      done()
