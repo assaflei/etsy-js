@@ -140,9 +140,11 @@ class Client
   # api POST requests
   post: (path, content, contentType, callback) ->
     url = @buildUrl path
-    contentType = if !contentType? then "application/x-www-form-urlencoded" else contentType
+    if !contentType? 
+      contentType = "application/x-www-form-urlencoded"
+      content = querystring.stringify(content)
     console.log "==> Perform POST request on #{url} with #{JSON.stringify content}"
-    @etsyOAuth2._request "POST", url, {'Authorization':@etsyOAuth2.buildAuthHeader(@oauth2Token),'Content-Type':contentType}, querystring.stringify(content), @oauth2Token, (err, data, res) =>
+    @etsyOAuth2._request "POST", url, {'Authorization':@etsyOAuth2.buildAuthHeader(@oauth2Token),'Content-Type':contentType}, content, @oauth2Token, (err, data, res) =>
       return callback(err) if err
       @handleResponse res, data, callback
 
@@ -167,8 +169,14 @@ class Client
         "x-api-key": @apiKey
       }
     }, (err, res) =>
+      body = '';
+      res.on('data', (chunk) =>
+        body += chunk;
+      );
+      res.on('end', () =>
+        return _this.handleResponse(res, body, callback);
+      );
       return callback(err) if err
-      return @handleResponse res, "{\"message\":\"success\"}", callback
     )
 
   # api DELETE requests

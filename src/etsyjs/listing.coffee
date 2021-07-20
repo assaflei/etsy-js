@@ -42,6 +42,16 @@ class Listing
       else
         cb null, body, headers
 
+  # Retrieves listings by id
+  # '/shops/:shop_id/listings/:listing_id/properties' GET
+  getProperties: (shop, cb) ->
+    @client.get "/shops/#{shop}/listings/#{@listingId}/properties", (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Get listings error'))
+      else
+        cb null, body, headers
+
   # Creates a new listing
   # /listings POST
   create: (shop, listing, cb) ->
@@ -74,8 +84,8 @@ class Listing
 
   # Updates listing details
   # /listings/:listing_id/variation-images POST
-  updateVariationImages: (varImagesData, cb) ->
-    @client.post "/listings/#{@listingId}/variation-images", varImagesData, (err, status, body, headers) ->
+  updateVariationImages: (shop, varImagesData, cb) ->
+    @client.post "shops/#{shop}/listings/#{@listingId}/variation-images", JSON.stringify(varImagesData), "application/json", (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Update listing variation images error'))

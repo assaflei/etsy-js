@@ -43,6 +43,16 @@ describe "listing", ->
     client.listing().trending (err, body, headers) ->
       body.results[0].listing_id.should.equal 69065674
 
+  # it "should get listing properties", (done) ->
+  #   # nock("https://api.etsy.com")
+  #   # .put("/v3/application/listings/1/inventory")
+  #   # .replyWithFile(200, __dirname + '/responses/listing/updateListingInventory.json')
+
+  #   client.listing(821396190).getProperties process.env.ETSY_SHOP, (err, body, headers) ->
+  #   # client.listing(1).updateInventory params, (err, body, headers) ->
+  #     should.exist(body.products)
+  #     done()
+
   it "should invoke api to create a new listing", (done) ->
     nock("https://api.etsy.com")
     .post("/v3/application/shops/1/listings")
@@ -62,7 +72,7 @@ describe "listing", ->
     params = {"rank": 1}
     # client.listing(1047491147).uploadListingImage process.env.ETSY_SHOP, fs.createReadStream('e:/temp/img1.jpg'), params, (err, body, headers) ->
     client.listing(1).uploadListingImage 1, stream, params, (err, body, headers) ->
-      body.message.should.equal "success"
+      should.exist(body.listing_image_id)
       done()
 
   it "should invoke api to update listing inventory", (done) ->
