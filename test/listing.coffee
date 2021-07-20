@@ -43,15 +43,15 @@ describe "listing", ->
     client.listing().trending (err, body, headers) ->
       body.results[0].listing_id.should.equal 69065674
 
-  # it "should get listing properties", (done) ->
-  #   # nock("https://api.etsy.com")
-  #   # .put("/v3/application/listings/1/inventory")
-  #   # .replyWithFile(200, __dirname + '/responses/listing/updateListingInventory.json')
+  it "should get listing properties", (done) ->
+    nock("https://api.etsy.com")
+    .get("/v3/application/shops/1/listings/1/properties")
+    .replyWithFile(200, __dirname + '/responses/listing/getProperties.json')
 
-  #   client.listing(821396190).getProperties process.env.ETSY_SHOP, (err, body, headers) ->
-  #   # client.listing(1).updateInventory params, (err, body, headers) ->
-  #     should.exist(body.products)
-  #     done()
+    # client.listing(821396190).getProperties process.env.ETSY_SHOP, (err, body, headers) ->
+    client.listing(1).getProperties 1, (err, body, headers) ->
+      should.exist(body.count)
+      done()
 
   it "should invoke api to create a new listing", (done) ->
     nock("https://api.etsy.com")

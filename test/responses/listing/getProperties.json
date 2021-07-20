@@ -1,0 +1,17 @@
+{
+    "count": 0,
+    "results": [
+      {
+        "property_id": 1,
+        "property_name": "string",
+        "scale_id": 1,
+        "scale_name": "string",
+        "value_ids": [
+          1
+        ],
+        "values": [
+          "string"
+        ]
+      }
+    ]
+  }

@@ -85,7 +85,7 @@ class Listing
   # Updates listing details
   # /listings/:listing_id/variation-images POST
   updateVariationImages: (shop, varImagesData, cb) ->
-    @client.post "shops/#{shop}/listings/#{@listingId}/variation-images", JSON.stringify(varImagesData), "application/json", (err, status, body, headers) ->
+    @client.post "/shops/#{shop}/listings/#{@listingId}/variation-images", JSON.stringify(varImagesData), "application/json", (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Update listing variation images error'))
