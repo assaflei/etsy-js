@@ -22,14 +22,14 @@ describe "client", ->
       expect(body.loginUrl).to.have.string('connect');
       done()
   it "should get OAuth2 access token", (done) ->
-    nock("https://api.etsy.com")
+    nock("https://openapi.etsy.com")
       .post("/v3/public/oauth/token")
       .replyWithFile(200, __dirname + "/responses/client/accessTokenOA2.json")
     client_oa2.accessTokenOA2 "code", "verifier", undefined, (err, body) ->
       should.exist(body.token);
       done()
   it "should get OAuth2 refreshed access token", (done) ->
-    nock("https://api.etsy.com")
+    nock("https://openapi.etsy.com")
       .post("/v3/public/oauth/token")
       .replyWithFile(200, __dirname + "/responses/client/accessTokenOA2.json")
     client_oa2.accessTokenOA2 "code", "verifier", "refresh_token", (err, body) ->

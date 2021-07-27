@@ -80,4 +80,14 @@ class Shop
         cb(new Error('Get inactive listings error'))
       else
         cb null, body, headers
+
+  # Returns a list of shop's shipping profiles (templates)
+  # /shops/:shop_id/shipping-profiles GET
+  shippingProfiles: (cb) ->
+    @client.get "/shops/#{@shopId}/shipping-profiles", (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Get shipping template error'))
+      else
+        cb null, body, headers
 module.exports = Shop

@@ -42,7 +42,7 @@ class Client
     @etsyOAuth2 = new OAuth.OAuth2(
       "#{@apiKey}",
       "#{@apiSecret}",
-      'https://api.etsy.com',
+      'https://openapi.etsy.com',
       "#{@oauth2AuthPath}",
       '/v3/public/oauth/token',
       {"x-api-key":@apiKey}
@@ -96,7 +96,7 @@ class Client
     query.api_key = @apiKey if @apiKey? && not @apiSecret?
     _url = require('url').format
       protocol: "https:"
-      hostname: "api.etsy.com"
+      hostname: "openapi.etsy.com"
       pathname: "/v3/application#{path}"
       query: query
 
@@ -244,7 +244,7 @@ class Client
       code_challenge: codeChallenge,
       code_challenge_method: 'S256'
     }
-    authUrl = authUrl.replace 'https://api.etsy.com/v3/application', ''
+    authUrl = authUrl.replace 'https://openapi.etsy.com/v3/application', ''
     result = {
       loginUrl: authUrl,
       state: stateHash,

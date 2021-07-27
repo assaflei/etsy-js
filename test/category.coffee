@@ -6,7 +6,7 @@ client = etsyjs.client({key: process.env.ETSY_KEY})
 describe "category", ->
 
   it "should be able to find a single category", (done) ->
-    nock("https://api.etsy.com")
+    nock("https://openapi.etsy.com")
       .get("/v3/application/categories/69150467?api_key=oh2jqv53z9hvmehprxu8bviu")
       .replyWithFile(200, __dirname + '/responses/getCategory.single.json')
 
@@ -15,7 +15,7 @@ describe "category", ->
       done()
 
   it "should be able to find all top level categories", (done) ->
-    nock("https://api.etsy.com")
+    nock("https://openapi.etsy.com")
       .get("/v3/application/seller-taxonomy/nodes?api_key=oh2jqv53z9hvmehprxu8bviu")
       .replyWithFile(200, __dirname + '/responses/category/findAllTopCategory.json')
 
@@ -24,7 +24,7 @@ describe "category", ->
       done()
 
   it "should be able to find children of a top level category", (done) ->
-    nock("https://api.etsy.com")
+    nock("https://openapi.etsy.com")
       .get("/v3/application/taxonomy/categories/69150467?api_key=oh2jqv53z9hvmehprxu8bviu")
       .replyWithFile(200, __dirname + '/responses/category/findAllTopCategoryChildren.json')
 
@@ -33,7 +33,7 @@ describe "category", ->
       done()
 
   it "should be able to find category properties", (done) ->
-    nock("https://api.etsy.com")
+    nock("https://openapi.etsy.com")
       .get("/v3/application/seller-taxonomy/nodes/1/properties?api_key=oh2jqv53z9hvmehprxu8bviu")
       .replyWithFile(200, __dirname + '/responses/category/getCategoryProps.json')
 
