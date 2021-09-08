@@ -180,10 +180,13 @@ class Client
     )
 
   # api DELETE requests
-  delete: (path, callback) ->
+  delete: (path, content, contentType, callback) ->
     url = @buildUrl path
-    console.log "==> Perform DELETE request on #{url}"
-    @etsyOAuth.delete url, @authenticatedToken, @authenticatedSecret, (err, data, res) =>
+    if !contentType? 
+      contentType = "application/x-www-form-urlencoded"
+      content = querystring.stringify(content)
+    console.log "==> Perform DELETE request on #{url} with #{JSON.stringify content}"
+    @etsyOAuth2._request "DELETE", url, {'Authorization':@etsyOAuth2.buildAuthHeader(@oauth2Token),'Content-Type':contentType}, content, @oauth2Token, (err, data, res) =>
       return callback(err) if err
       @handleResponse res, data, callback
 

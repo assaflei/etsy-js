@@ -85,3 +85,25 @@ describe "listing", ->
     client.listing(1).updateInventory params, (err, body, headers) ->
       should.exist(body.products)
       done()
+
+  it "should invoke api to get listing inventory", (done) ->
+    nock("https://openapi.etsy.com")
+    .get("/v3/application/listings/1/inventory")
+    .replyWithFile(200, __dirname + '/responses/listing/updateListingInventory.json')
+
+    # params = {"param": 1}
+    # client.auth('','','token here').listing(1057993675).getInventory params, (err, body, headers) ->
+    client.listing(1).getInventory (err, body, headers) ->
+      should.exist(body.products)
+      done()
+
+  it "should delete listing", (done) ->
+    nock("https://openapi.etsy.com")
+    .delete("/v3/application/listings/1")
+    .replyWithFile(204, __dirname + '/responses/listing/deleteListing.json')
+
+    # client.listing(1047491147).uploadListingImage process.env.ETSY_SHOP, fs.createReadStream('e:/temp/img1.jpg'), params, (err, body, headers) ->
+    # client.auth('','','token here').listing(1).delete (err, body, headers) ->
+    client.listing(1).delete (err, body, headers) ->
+      should.exist(body.result)
+      done()

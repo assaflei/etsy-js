@@ -72,6 +72,16 @@ class Listing
       else
         cb null, body, headers
 
+  # Get listing inventory details
+  # /listings/:listing_id GET
+  getInventory: (params..., cb) ->
+    @client.get "/listings/#{@listingId}/inventory", params..., (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Get listing quantity error'))
+      else
+        cb null, body, headers
+
   # Updates listing details
   # /listings/:listing_id PUT
   updateInventory: (listing, cb) ->
@@ -101,4 +111,14 @@ class Listing
         cb(new Error('Update listing images error'))
       else
         cb null, body, headers
+
+  # Deletes a listing
+  # /listings/:listing_id DELETE
+  delete: (cb) ->
+    @client.delete "/listings/#{@listingId}", "", "application/json", (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 204
+        cb(new Error('Delete listing error'))
+      else
+        cb null, {result: 1}, headers
 module.exports = Listing
