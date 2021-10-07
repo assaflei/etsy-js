@@ -35,3 +35,10 @@ describe "client", ->
     client_oa2.accessTokenOA2 "code", "verifier", "refresh_token", (err, body) ->
       should.exist(body.token);
       done()
+  it "should get OAuth2 exchanged from OAuth1 access token", (done) ->
+    nock("https://openapi.etsy.com")
+      .post("/v3/public/oauth/token")
+      .replyWithFile(200, __dirname + "/responses/client/accessTokenOA2.json")
+    client_oa2.accessTokenOA1To2 "client_id", "legacy_token", (err, body) ->
+      should.exist(body.token);
+      done()

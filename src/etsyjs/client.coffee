@@ -288,6 +288,27 @@ class Client
         refreshToken: refresh_token
 
       callback null, accessToken
+
+  accessTokenOA1To2: (clientId, legacyToken, callback) ->
+    grantType = "token_exchange"
+    params = {
+      grant_type: grantType,
+      client_id: clientId
+      legacy_token: legacyToken
+    }
+    url = @etsyOAuth2._baseSite + @etsyOAuth2._accessTokenUrl
+    content = querystring.stringify(params)
+    console.log "==> Perform PUT request on #{url} with #{JSON.stringify content}"
+    @etsyOAuth2._request "POST", url, {'Content-Type':'application/x-www-form-urlencoded'}, content, null, (err, token_data) =>
+      console.log "==> Retrieving the access token"
+      return callback(err) if err
+      token = JSON.parse(token_data)
+      accessToken =
+        token: token.access_token
+        refreshToken: token.refresh_token
+
+      callback null, accessToken
+
   ###
   Allows for adding scope to the requests.
   (ex: transactions_r, listings_r, etc..)
