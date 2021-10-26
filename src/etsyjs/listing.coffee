@@ -108,7 +108,10 @@ class Listing
     @client.postMultipart "/shops/#{shop}/listings/#{@listingId}/images", imageData, params..., (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 201
-        cb(new Error('Update listing images error'))
+        if status == 400
+          cb(new Error("Update listing images error: #{body.error}"))
+        else
+          cb(new Error("Update listing images error: #{status}"))
       else
         cb null, body, headers
 
