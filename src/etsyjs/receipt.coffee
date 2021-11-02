@@ -39,4 +39,12 @@ class Receipt
       else
         cb null, body, headers
 
+  updateShipping: (shopId, recieptId, trackingData, cb) ->
+    @client.post "/shops/#{shopId}/receipts/#{recieptId}/tracking", trackingData, null, (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error("updateShipping error: status: #{status}, error: #{body.error}"))
+      else
+        cb null, body, headers
+
 module.exports = Receipt
