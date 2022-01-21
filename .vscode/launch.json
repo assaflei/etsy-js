@@ -25,8 +25,9 @@
                 "<node_internals>/**"
             ],
             "env":{
-                "ETSY_KEY": "",
-                "ETSY_SECRET": ""
+                "ETSY_KEY": "oh2jqv53z9hvmehprxu8bviu",
+                "ETSY_SECRET": "a5htvglmps",
+                "ETSY_SHOP": "23764243"
             },
             "type": "node"
         },

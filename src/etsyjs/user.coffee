@@ -30,7 +30,12 @@ class User
     @client.get "/users/#{@userId}/shops", (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
-        cb(new Error('Final all user shops error'))
+        if status == 400
+          cb(new Error("Get user shops error error: #{body.error}"))
+        else if status == 404
+          cb null, {results: []}, headers
+        else
+          cb(new Error("Get user shops error. Status: #{status}, message: #{body.error}"))
       else
         cb null, body, headers
 

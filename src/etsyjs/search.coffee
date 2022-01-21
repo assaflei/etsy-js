@@ -32,4 +32,14 @@ class Search
       else
         cb null, body, headers
 
+  # Finds all shops whose id match the params
+  # '/listings' GET
+  findAllShops: (params, cb) ->
+    @client.get "/shops", params, (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Search shops error'))
+      else
+        cb null, body, headers
+
 module.exports = Search

@@ -81,6 +81,20 @@ class Shop
       else
         cb null, body, headers
 
+  # Retrieves Listings associated to a Shop that are inactive
+  # '/shops/:shop_id/listings?state=sold_out' GET
+  soldOutListings: (params..., {token, secret, limit, offset}, cb) ->
+    params = if !params? then {} else params
+    params.push { limit: limit } if limit?
+    params.push { offset: offset } if offset?
+    params.push { state: "sold_out" }
+    @client.get "/shops/#{@shopId}/listings", params..., token, secret, (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Get sold out listings error'))
+      else
+        cb null, body, headers
+
   # Returns a list of shop's shipping profiles (templates)
   # /shops/:shop_id/shipping-profiles GET
   shippingProfiles: (cb) ->
