@@ -63,12 +63,12 @@ class Listing
         cb null, body, headers
 
   # Updates listing details
-  # /listings/:listing_id PUT
-  update: (listing, cb) ->
-    @client.put "/listings/#{@listingId}", listing, (err, status, body, headers) ->
+  # /shops/shopId/listings/:listing_id PUT
+  update: (shop, listing, cb) ->
+    @client.put "/shops/#{shop}/listings/#{@listingId}", listing, null, (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
-        cb(new Error('Update listing error'))
+        cb(new Error("Update listing error (status: #{status}): #{body.error}"))
       else
         cb null, body, headers
 
