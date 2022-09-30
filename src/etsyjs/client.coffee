@@ -121,7 +121,7 @@ class Client
   # api GET requests
   get: (path, params..., callback) ->
     console.log "==> Client get request with params #{params}"
-    if @authenticatedToken? and @authenticatedSecret?
+    if @authenticatedToken? and @authenticatedSecret? and @oauth2Token?
       @getAuthenticated path, params..., callback
     else
       @getUnauthenticated path, params..., callback
@@ -134,6 +134,17 @@ class Client
       content = querystring.stringify(content)
     console.log "==> Perform PUT request on #{url} with #{JSON.stringify content}"
     @etsyOAuth2._request "PUT", url, {'Authorization':@etsyOAuth2.buildAuthHeader(@oauth2Token),'Content-Type':contentType}, content, @oauth2Token, (err, data, res) =>
+      return callback(err) if err
+      @handleResponse res, data, callback
+
+  # api PATCH requests
+  patch: (path, content, contentType, callback) ->
+    url = @buildUrl path
+    if !contentType? 
+      contentType = "application/x-www-form-urlencoded"
+      content = querystring.stringify(content)
+    console.log "==> Perform PATCH request on #{url} with #{JSON.stringify content}"
+    @etsyOAuth2._request "PATCH", url, {'Authorization':@etsyOAuth2.buildAuthHeader(@oauth2Token),'Content-Type':contentType}, content, @oauth2Token, (err, data, res) =>
       return callback(err) if err
       @handleResponse res, data, callback
 
