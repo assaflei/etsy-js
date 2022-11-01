@@ -10,7 +10,7 @@
   "scripts": {},
   "dependencies": {
     "coffee-script": "1.7.x",
-    "oauth": "0.9.x",
+    "oauth": "git+https://github.com/assaflei/node-oauth.git#master",
     "prettyjson": "1.0.x",
     "request": "2.34.x"
   },
