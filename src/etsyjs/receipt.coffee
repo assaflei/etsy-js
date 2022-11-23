@@ -21,8 +21,8 @@ class Receipt
 
   # Retrieves receipts by shop id
   # '/receipts/:receipt_id' GET
-  find: (receiptId, cb) ->
-    @client.get "/receipts/#{@receiptId}", (err, status, body, headers) ->
+  find: (shopId, receiptId, cb) ->
+    @client.get "/shops/#{shopId}/receipts/#{receiptId}", (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Get receipt error'))
