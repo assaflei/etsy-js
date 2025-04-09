@@ -115,6 +115,19 @@ class Listing
       else
         cb null, body, headers
 
+  # Uploads listing video
+  # /shops/:shop_id/listings/:listing_id/videos POST
+  uploadListingVideo: (shop, videoData, params..., cb) ->
+    @client.postMultipart "/shops/#{shop}/listings/#{@listingId}/videos", videoData, params..., (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 201
+        if status == 400
+          cb(new Error("Update listing videos error: #{body.error}"))
+        else
+          cb(new Error("Update listing videos error: #{status}"))
+      else
+        cb null, body, headers
+
   # Deletes a listing
   # /listings/:listing_id DELETE
   delete: (cb) ->
