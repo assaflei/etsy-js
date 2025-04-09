@@ -190,6 +190,37 @@ class Client
       return callback(err) if err
     )
 
+  # api POST multipart form requests (usually file uploads)
+  postVideoMultipart: (path, content, params..., callback) ->
+    url = new URL(@buildUrl path)
+    console.log "==> Perform multipart POST request on #{url} with #{typeof content} content"
+    form = new FormData()
+    form.append('name', 'video')
+    form.append('video', content)
+    if params.length > 0
+      for key, value of params
+        if value?
+          for valKey, valValue of value 
+            form.append(valKey, valValue)
+    form.submit({
+      protocol: url.protocol,
+      host: url.host,
+      path: url.pathname,
+      headers: {
+        'Authorization': @etsyOAuth2.buildAuthHeader(@oauth2Token),
+        "x-api-key": @apiKey
+      }
+    }, (err, res) =>
+      body = '';
+      res.on('data', (chunk) =>
+        body += chunk;
+      );
+      res.on('end', () =>
+        return _this.handleResponse(res, body, callback);
+      );
+      return callback(err) if err
+    )
+
   # api DELETE requests
   delete: (path, content, contentType, callback) ->
     url = @buildUrl path
