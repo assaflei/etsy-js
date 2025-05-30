@@ -104,4 +104,15 @@ class Shop
         cb(new Error('Get shipping template error'))
       else
         cb null, body, headers
+
+  # Updates shipping profile
+  # /shipping-profiles/:id PUT
+  updateInventory: (profileId, details, cb) ->
+    @client.put "/shops/#{@shopId}/shipping-profiles/#{@profileId}", JSON.stringify(details), "application/json", (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Update listing error (status: ' + status + '): ' + body.error))
+      else
+        cb null, body, headers
+
 module.exports = Shop
