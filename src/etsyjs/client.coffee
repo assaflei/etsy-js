@@ -22,7 +22,7 @@ class Client
   constructor: (@options) ->
     # @authType = @options.authType #use oauth or oauth2
     @oauth2AuthPath = 'https://www.etsy.com/oauth/connect'
-    @oauth2Scopes = 'email_r profile_r address_r address_w'
+    @oauth2Scopes = 'email_r profile_r address_r address_w shops_w'
     @apiKey = @options.key
     @apiSecret = @options.secret
     @callbackURL = @options.callbackURL
