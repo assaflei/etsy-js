@@ -107,11 +107,21 @@ class Shop
 
   # Updates shipping profile
   # /shipping-profiles/:id PUT
-  updateInventory: (profileId, details, cb) ->
-    @client.put "/shops/#{@shopId}/shipping-profiles/#{@profileId}", JSON.stringify(details), "application/json", (err, status, body, headers) ->
+  updateShippingProfile: (profileId, details, cb) ->
+    @client.put "/shops/#{@shopId}/shipping-profiles/#{profileId}", JSON.stringify(details), "application/json", (err, status, body, headers) ->
       return cb(err) if err
       if status isnt 200
         cb(new Error('Update listing error (status: ' + status + '): ' + body.error))
+      else
+        cb null, body, 
+
+  # Returns a list of shop's shipping profiles (templates)
+  # /shops/:shop_id/shipping-profiles GET
+  processingProfiles: (cb) ->
+    @client.get "/shops/#{@shopId}/readiness-state-definitions", (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error('Get processing profiles error'))
       else
         cb null, body, headers
 

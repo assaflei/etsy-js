@@ -5,3 +5,4 @@ config.json
 *.iml
 examples/config.json
 .vscode
+package-lock.json
