@@ -45,7 +45,7 @@ class Client
       'https://openapi.etsy.com',
       "#{@oauth2AuthPath}",
       '/v3/public/oauth/token',
-      {"x-api-key":@apiKey}
+      {"x-api-key":"#{@apiKey}:#{apiSecret}"}
     )
 
   # nice helper method to set token and secret for each method call
