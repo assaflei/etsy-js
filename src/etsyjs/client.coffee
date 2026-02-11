@@ -177,7 +177,7 @@ class Client
       path: url.pathname,
       headers: {
         'Authorization': @etsyOAuth2.buildAuthHeader(@oauth2Token),
-        "x-api-key": @apiKey
+        "x-api-key": "#{@apiKey}:#{apiSecret}"
       }
     }, (err, res) =>
       body = '';
@@ -208,7 +208,7 @@ class Client
       path: url.pathname,
       headers: {
         'Authorization': @etsyOAuth2.buildAuthHeader(@oauth2Token),
-        "x-api-key": @apiKey
+        "x-api-key": "#{@apiKey}:#{apiSecret}"
       }
     }, (err, res) =>
       body = '';
@@ -238,7 +238,7 @@ class Client
       uri: @buildUrl path, params...
       method: 'GET'
       headers: {
-        "x-api-key": @apiKey
+        "x-api-key": "#{@apiKey}:#{apiSecret}"
       }
     ), (err, res, body) =>
       return callback(err) if err
