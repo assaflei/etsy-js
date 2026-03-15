@@ -115,6 +115,26 @@ class Listing
       else
         cb null, body, headers
 
+  # Updates listing details
+  # /listings/:listing_id/variation-images POST
+  restoreListingImage: (shop, params, cb) ->
+    @client.post "/shops/#{shop}/listings/#{@listingId}/images", JSON.stringify(params), "application/json", (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 200
+        cb(new Error("Restore listing images error: #{body.error}"))
+      else
+        cb null, body, headers
+
+  # Deletes a listing image
+  # /listings/:listing_id/images/:imageId DELETE
+  delete: (imageId, cb) ->
+    @client.delete "/listings/#{@listingId}/images/#{imageId}", "", "application/json", (err, status, body, headers) ->
+      return cb(err) if err
+      if status isnt 204
+        cb(new Error("Delete listing image error: #{body.error}"))
+      else
+        cb null, {result: 1}, headers
+
   # Uploads listing video
   # /shops/:shop_id/listings/:listing_id/videos POST
   uploadListingVideo: (shop, videoData, params..., cb) ->
